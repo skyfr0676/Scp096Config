@@ -13,5 +13,9 @@ namespace scp096timer
         [Description("Syntaxe : Broadcast, Hint. Default : Hint.")]
         public BroadcastType TypeOfMessage { get; set; } = BroadcastType.Hint;
         public bool EnableTarget { get; set; } = true;
+
+        public string MessageEnraged { get; set; } = "<color=red>you are enraged for";
+
+        public string MessageTarget { get; set; } = "<color=red>youre target was : </color>";
     }
 }

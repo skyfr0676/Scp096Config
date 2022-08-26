@@ -32,9 +32,8 @@ namespace scp096timer
                 yield return Timing.WaitForSeconds(1f);
                 string timeleft = $"{ev.Scp096.EnrageTimeLeft}";
                 string[] sec = timeleft.Split('.');
-
-                string status = $"you are enraged for {sec[0]}\n";
-                string target = "<color=red>youre target has :\n</color>";
+                string status = $"{Plugin.Singleton.Config.MessageEnraged} {sec[0]}</color>\n";
+                string target = $"{Plugin.Singleton.Config.MessageTarget}\n";
                 if (Config.EnableTarget)
                 {
                     foreach (Player player in players)
@@ -44,9 +43,27 @@ namespace scp096timer
                 }
                 switch (Plugin.Singleton.Config.TypeOfMessage)
                 {
-                    default: ev.Player.ShowHint(status+target, 1); break;
-                    case BroadcastType.Broadcast: ev.Player.Broadcast(1, status);ev.Player.ShowHint(target,1); break;
-                    case BroadcastType.Hint: ev.Player.ShowHint(status+target, 1); break;
+                    default:
+                        if (Plugin.Singleton.Config.EnableTarget)
+                            ev.Player.ShowHint(status + target, 1);
+                        else
+                            ev.Player.ShowHint(status, 1);
+                        break;
+                    case BroadcastType.Broadcast:
+                        if (Plugin.Singleton.Config.EnableTarget)
+                        {
+                            ev.Player.Broadcast(1, status);
+                            ev.Player.ShowHint(target, 1);
+                        }
+                        else
+                            ev.Player.Broadcast(1, status);
+                        break;
+                    case BroadcastType.Hint:
+                        if (Plugin.Singleton.Config.EnableTarget)
+                            ev.Player.ShowHint(status + target, 1);
+                        else
+                            ev.Player.ShowHint(status, 1);
+                        break;
                 }
 
             }
