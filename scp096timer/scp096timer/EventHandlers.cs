@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BroadcastTyped;
 
 namespace scp096timer
 {
@@ -41,16 +42,11 @@ namespace scp096timer
                         target += $"<color=red>{player.DisplayNickname} : {player.Zone}</color>\n";
                     }
                 }
-                if (Config.TypeOfMessage == "Hint")
+                switch (Plugin.Singleton.Config.TypeOfMessage)
                 {
-                    status += target;
-                    ev.Player.ShowHint(status, 1);
-                }
-                if (Config.TypeOfMessage == "broadcast")
-                {
-                    ev.Player.Broadcast(1, status);
-                    if (Config.EnableTarget)
-                        ev.Player.ShowHint(target, 1);
+                    default: ev.Player.ShowHint(status+target, 1); break;
+                    case BroadcastType.Broadcast: ev.Player.Broadcast(1, status);ev.Player.ShowHint(target,1); break;
+                    case BroadcastType.Hint: ev.Player.ShowHint(status+target, 1); break;
                 }
 
             }

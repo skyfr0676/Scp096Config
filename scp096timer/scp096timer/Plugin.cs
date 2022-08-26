@@ -21,10 +21,12 @@ namespace scp096timer
 
         public override Version RequiredExiledVersion { get; } = new Version(5, 2, 2);
 
+        public static Plugin Singleton;
         public EventHandlers EventHandlers { get; private set; }
 
         public override void OnEnabled()
         {
+            Singleton = this;
             Instance = this;
             EventHandlers = new EventHandlers(this);
             Event.Scp096.Enraging += EventHandlers.enraging;
@@ -37,6 +39,8 @@ namespace scp096timer
             Event.Scp096.Enraging -= EventHandlers.enraging;
             Event.Scp096.AddingTarget -= EventHandlers.AddTarget;
             Event.Scp096.CalmingDown -= EventHandlers.calmingDown;
+            Singleton = null;
+            EventHandlers = null;
             base.OnDisabled();
         }
     }
