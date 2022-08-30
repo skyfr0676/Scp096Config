@@ -11,7 +11,7 @@ using BroadcastTyped;
 
 namespace scp096timer
 {
-    public class EventHandlers : Plugin<Config>
+    public class EventHandlers
     {
         private readonly Plugin _plugin;
         internal EventHandlers(Plugin plugin) => this._plugin = plugin;
@@ -31,10 +31,17 @@ namespace scp096timer
             {
                 yield return Timing.WaitForSeconds(1f);
                 string timeleft = $"{ev.Scp096.EnrageTimeLeft}";
+                if (ev.Player.Role is Scp096Role scp096)
+                {
+                    foreach (Player test in scp096.Targets)
+                    {
+                        Log.Info(test);
+                    }
+                }
                 string[] sec = timeleft.Split('.');
                 string status = $"{Plugin.Singleton.Config.MessageEnraged} {sec[0]}</color>\n";
                 string target = $"{Plugin.Singleton.Config.MessageTarget}\n";
-                if (Config.EnableTarget)
+                if (Plugin.Singleton.Config.EnableTarget)
                 {
                     foreach (Player player in players)
                     {
