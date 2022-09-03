@@ -8,7 +8,7 @@ Scp096Config is an [Scp: Secret Laboratory](https://store.steampowered.com/app/7
 >- <a href="readme.md/config">Configuration</a>
 
 # installation
-you need **latest** [EXILED](https://github.com/exiled-team/EXILED/release) (5.3.0) installed in to your server.
+you need **latest** [EXILED](https://github.com/exiled-team/EXILED/releases) (5.3.0) installed in to your server.
 
 put on ['scp096timer.dll'](https://github.com/skyyt15/Scp096Config/releases) file in 'EXILED\Plugins\' Path
 
