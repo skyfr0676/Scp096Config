@@ -25,27 +25,15 @@ namespace scp096timer
         {
             switch (Plugin.Singleton.Config.TypeOfTargetTargetMessage)
             {
-                default:
-                    ev.Target.ShowHint(Plugin.Singleton.Config.ShowTargetViewScp096Face, 10);
-                    break;
-                case BroadcastType.Hint:
-                    ev.Target.ShowHint(Plugin.Singleton.Config.ShowTargetViewScp096Face, 10);
-                    break;
-                case BroadcastType.Broadcast:
-                    ev.Target.Broadcast(10, Plugin.Singleton.Config.ShowTargetViewScp096Face);
-                    break;
+                default:ev.Target.ShowHint(Plugin.Singleton.Config.ShowTargetViewScp096Face, 10);break;
+                case BroadcastType.Hint: ev.Target.ShowHint(Plugin.Singleton.Config.ShowTargetViewScp096Face, 10); break ;
+                case BroadcastType.Broadcast:ev.Target.Broadcast(10, Plugin.Singleton.Config.ShowTargetViewScp096Face);break;
             }
             switch (Plugin.Singleton.Config.TypeOfTargetScp096Message)
             {
-                default:
-                    ev.Target.ShowHint($"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.", 10);
-                    break;
-                case BroadcastType.Hint:
-                    ev.Target.ShowHint($"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.", 10);
-                    break;
-                case BroadcastType.Broadcast:
-                    ev.Target.Broadcast(10, $"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.");
-                    break;
+                default:ev.Target.ShowHint($"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.", 10);break;
+                case BroadcastType.Hint:ev.Target.ShowHint($"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.", 10);break;
+                case BroadcastType.Broadcast:ev.Target.Broadcast(10, $"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.");break;
             }
         }
 
@@ -71,10 +59,8 @@ namespace scp096timer
                             switch (Plugin.Singleton.Config.TypeOfMessage)
                             {
                                 default:
-                                    if (Plugin.Singleton.Config.EnableTarget)
-                                        ev.Player.ShowHint(status + target, 1);
-                                    else
-                                        ev.Player.ShowHint(status, 1);
+                                    if (Plugin.Singleton.Config.EnableTarget) ev.Player.ShowHint(status + target, 1);
+                                    else ev.Player.ShowHint(status, 1);
                                     break;
                                 case BroadcastType.Broadcast:
                                     if (Plugin.Singleton.Config.EnableTarget)
