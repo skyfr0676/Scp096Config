@@ -17,5 +17,13 @@ namespace scp096timer
         public string MessageEnraged { get; set; } = "<color=red>you are enraged for";
 
         public string MessageTarget { get; set; } = "<color=red>youre target was : </color>";
+
+        public string ShowScp096Target { get; set; } = "has saw yout face . it's ";
+
+        public string ShowTargetViewScp096Face { get; set; } = "you have saw Scp096 Face !";
+
+        public BroadcastType TypeOfTargetScp096Message { get; set; } = BroadcastType.Hint;
+
+        public BroadcastType TypeOfTargetTargetMessage { get; set; } = BroadcastType.Broadcast;
     }
 }

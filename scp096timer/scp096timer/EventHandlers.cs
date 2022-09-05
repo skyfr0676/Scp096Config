@@ -16,15 +16,39 @@ namespace scp096timer
         private readonly Plugin _plugin;
         internal EventHandlers(Plugin plugin) => this._plugin = plugin;
 
-        public List<Player> players = new List<Player>();
         public void enraging(EnragingEventArgs ev)
         {
-            Timing.RunCoroutine(AddCoroutine(ev),"enrage");
+            Timing.RunCoroutine(AddCoroutine(ev),$"{ev.Player.UserId}'s enrage");
         }
+
         public void AddTarget(AddingTargetEventArgs ev)
         {
-            players.Add(ev.Target);
+            switch (Plugin.Singleton.Config.TypeOfTargetTargetMessage)
+            {
+                default:
+                    ev.Target.ShowHint(Plugin.Singleton.Config.ShowTargetViewScp096Face, 10);
+                    break;
+                case BroadcastType.Hint:
+                    ev.Target.ShowHint(Plugin.Singleton.Config.ShowTargetViewScp096Face, 10);
+                    break;
+                case BroadcastType.Broadcast:
+                    ev.Target.Broadcast(10, Plugin.Singleton.Config.ShowTargetViewScp096Face);
+                    break;
+            }
+            switch (Plugin.Singleton.Config.TypeOfTargetScp096Message)
+            {
+                default:
+                    ev.Target.ShowHint($"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.", 10);
+                    break;
+                case BroadcastType.Hint:
+                    ev.Target.ShowHint($"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.", 10);
+                    break;
+                case BroadcastType.Broadcast:
+                    ev.Target.Broadcast(10, $"{ev.Target.DisplayNickname} {Plugin.Singleton.Config.ShowScp096Target} <color={ev.Target.Role.Color.ToHex()}>{ev.Target.Role.Type}</color>.");
+                    break;
+            }
         }
+
         public IEnumerator<float> AddCoroutine(EnragingEventArgs ev)
         {
             for (; ; )
@@ -35,49 +59,51 @@ namespace scp096timer
                 {
                     foreach (Player test in scp096.Targets)
                     {
-                        Log.Info(test);
-                    }
-                }
-                string[] sec = timeleft.Split('.');
-                string status = $"{Plugin.Singleton.Config.MessageEnraged} {sec[0]}</color>\n";
-                string target = $"{Plugin.Singleton.Config.MessageTarget}\n";
-                if (Plugin.Singleton.Config.EnableTarget)
-                {
-                    foreach (Player player in players)
-                    {
-                        target += $"<color=red>{player.DisplayNickname} : {player.Zone}</color>\n";
-                    }
-                }
-                switch (Plugin.Singleton.Config.TypeOfMessage)
-                {
-                    default:
-                        if (Plugin.Singleton.Config.EnableTarget)
-                            ev.Player.ShowHint(status + target, 1);
-                        else
-                            ev.Player.ShowHint(status, 1);
-                        break;
-                    case BroadcastType.Broadcast:
-                        if (Plugin.Singleton.Config.EnableTarget)
+                        foreach (Player player in scp096.Targets)
                         {
-                            ev.Player.Broadcast(1, status);
-                            ev.Player.ShowHint(target, 1);
+                            string[] sec = timeleft.Split('.');
+                            string status = $"{Plugin.Singleton.Config.MessageEnraged} {sec[0]}</color>\n";
+                            string target = $"{Plugin.Singleton.Config.MessageTarget}\n";
+                            if (Plugin.Singleton.Config.EnableTarget)
+                            {
+                                target += $"<color=red>{player.DisplayNickname} : {player.Zone}</color>\n";
+                            }
+                            switch (Plugin.Singleton.Config.TypeOfMessage)
+                            {
+                                default:
+                                    if (Plugin.Singleton.Config.EnableTarget)
+                                        ev.Player.ShowHint(status + target, 1);
+                                    else
+                                        ev.Player.ShowHint(status, 1);
+                                    break;
+                                case BroadcastType.Broadcast:
+                                    if (Plugin.Singleton.Config.EnableTarget)
+                                    {
+                                        ev.Player.Broadcast(1, status);
+                                        ev.Player.ShowHint(target, 1);
+                                    }
+                                    else
+                                        ev.Player.Broadcast(1, status);
+                                    break;
+                                case BroadcastType.Hint:
+                                    if (Plugin.Singleton.Config.EnableTarget)
+                                        ev.Player.ShowHint(status + target, 1);
+                                    else
+                                        ev.Player.ShowHint(status, 1);
+                                    break;
+                            }
                         }
-                        else
-                            ev.Player.Broadcast(1, status);
-                        break;
-                    case BroadcastType.Hint:
-                        if (Plugin.Singleton.Config.EnableTarget)
-                            ev.Player.ShowHint(status + target, 1);
-                        else
-                            ev.Player.ShowHint(status, 1);
-                        break;
+                    }
                 }
-
+                else
+                {
+                    Timing.KillCoroutines($"{ev.Player.UserId}'s enrage");
+                }
             }
         }
         public void calmingDown(CalmingDownEventArgs ev)
         {
-            Timing.KillCoroutines("enrage");
+            Timing.KillCoroutines($"{ev.Player.UserId}'s enrage");
         }
     }
 }
